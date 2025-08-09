@@ -27,6 +27,7 @@ async def check_website():
     async with aiohttp.ClientSession() as session:
         try:
             async with session.get(WEBSITE_URL) as response:
+                print(f"Checked {WEBSITE_URL}: Status code {response.status}")
                 if response.status != 200:
                     user = await bot.fetch_user(USER_ID)
                     await user.send(f"⚠️ Alert: {WEBSITE_URL} is down! Status code: {response.status}")
