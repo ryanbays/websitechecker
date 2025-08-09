@@ -9,6 +9,8 @@ load_dotenv()
 
 TOKEN = os.getenv('TOKEN')
 if not TOKEN:
+    with open('.env', 'w') as f:
+        f.close() 
     raise ValueError("No TOKEN found in environment variables. Please set the TOKEN variable.")
 
 # Bot setup
