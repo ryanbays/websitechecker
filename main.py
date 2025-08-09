@@ -34,7 +34,9 @@ async def check_website():
 
 @bot.event
 async def on_ready():
-    print(f'Bot is ready: {bot.user.name}')
+    print(f'Bot is ready')
+    user = await bot.fetch_user(USER_ID)
+    await user.send(f"Bot is online and will check {WEBSITE_URL} every {CHECK_INTERVAL // 60} minutes.")
     check_website.start()
 
 # Run the bot
