@@ -34,6 +34,21 @@ async def check_website():
             user = await bot.fetch_user(USER_ID)
             await user.send(f"⚠️ Alert: {WEBSITE_URL} is unreachable! Error: {str(e)}")
 
+@bot.command(name='check')
+async def check_command(ctx):
+    """Manually check the website status"""
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.get(WEBSITE_URL) as response:
+                if response.status == 200:
+                    await ctx.send(f"✅ {WEBSITE_URL} is up and running! Status code: {response.status}")
+                else:
+                    await ctx.send(f"⚠️ {WEBSITE_URL} is down! Status code: {response.status}")
+        except Exception as e:
+            await ctx.send(f"⚠️ {WEBSITE_URL} is unreachable! Error: {str(e)}")
+
+@tasks.loop(seconds=CHECK_INTERVAL)
+
 @bot.event
 async def on_ready():
     print(f'Bot is ready')
